@@ -2,6 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using IoTProject.App.DTOs;
+using Microsoft.AspNetCore.Authorization;
+using IoTProject.Domain.Entities;
+using System.Security.Claims;
+using NuGet.Common;
 namespace IoTProject.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -16,13 +20,15 @@ namespace IoTProject.Api.Controllers
             _authService = authService;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(
-        RegisterRequest data)
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] LoginRequest data)
         {
-            await _authService.Register(data);
 
-            return Ok();
+            var token = await _authService.Login(data);
+
+            return Ok(token);
         }
+
+
     }
 }

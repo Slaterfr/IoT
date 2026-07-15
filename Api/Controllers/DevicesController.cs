@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using IoTProject.App.Interfaces;
 using IoTProject.App.DTOs;
 using IoTProject.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IoTProject.Api.Controllers;
 
@@ -17,7 +18,8 @@ public class DevicesController : ControllerBase
             _deviceService = deviceService;
         }
 
-        [HttpPost]
+   [HttpPost]
+    [Authorize]
    public async Task<IActionResult> PostDevice([FromBody] DeviceEntry data)
     {
         await _deviceService.PostDevice(data);

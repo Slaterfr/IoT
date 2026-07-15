@@ -13,10 +13,12 @@ namespace IoTProject.App.Services
     public class AuthService : IAuthService
     {
         private readonly AppDbContext _context;
+        private readonly IJWTService _jwt;
 
-        public AuthService(AppDbContext context)
+        public AuthService(AppDbContext context, IJWTService jWT)
         {
             _context = context;
+            _jwt = jWT;
         }
 
         public async Task Register([FromBody] RegisterRequest data)
@@ -43,7 +45,7 @@ namespace IoTProject.App.Services
 
         }
 
-        public async Task<string> Login([FromBody] LoginRequest data)
+        public async Task<string> Login(LoginRequest data)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == data.Email);
 
@@ -62,7 +64,7 @@ namespace IoTProject.App.Services
                 throw new Exception("Invalid credentials");
             }
             
-            return "login success";
+            return _jwt.GenerateToken(user.Id);
         }
     }
 }

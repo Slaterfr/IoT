@@ -30,6 +30,7 @@ namespace IoTProject.App.Services
             var readings = await query.OrderByDescending(x => x.Timestamp).Take(10).Select(x => new TelemetryRead
             {
                 DeviceId = DeviceId.HasValue ? DeviceId.Value : x.DeviceId,
+                DeviceName = x.DeviceName,
                 Timestamp = x.Timestamp,
                 TelemetryType = x.TelemetryType,
                 payload = x.payload
@@ -39,7 +40,7 @@ namespace IoTProject.App.Services
         }
 
 
-        public async Task PostTelemetry(TelemetryEntry data, string ApiKey)
+        public async Task PostTelemetry(TelemetryEntry data)
         {
             var device = await _context.Devices.FirstOrDefaultAsync(x => x.Id == data.DeviceId);
 
@@ -48,7 +49,7 @@ namespace IoTProject.App.Services
                 throw new Exception("Device not found");
             }
 
-            if (device.ApiKey != ApiKey)
+            if (device.ApiKey != data.ApiKey)
             {
                 throw new Exception("unvalid auth");
             }
@@ -59,9 +60,10 @@ namespace IoTProject.App.Services
             var record = new TelemetryRecord
             {
                 DeviceId = data.DeviceId,
+                DeviceName = data.DeviceName,
                 TelemetryType = data.TelemetryType,
                 payload = data.payload,
-                Timestamp = data.Timestamp
+                Timestamp = DateTime.UtcNow
             };
 
             await _context.TelemetryRecord.AddAsync(record);

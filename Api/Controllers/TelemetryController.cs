@@ -18,11 +18,11 @@ public class TelemetryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostTelemetry([FromBody] TelemetryEntry datos, [FromHeader(Name = "X-Api-Key")] string key)
+    public async Task<IActionResult> PostTelemetry([FromBody] TelemetryEntry datos)
     {
-        await _telemetryservice.PostTelemetry(datos, key);
+        await _telemetryservice.PostTelemetry(datos);
 
-        return Ok();
+        return Ok("Telemetry Created");
     }
 
     [HttpGet]

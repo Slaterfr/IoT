@@ -22,6 +22,7 @@ namespace IoTProject.App.Services
             var DeviceKey = ApiKeyGenerator.GenerateApiKey();
             var device = new Device 
             {
+                Identifier = data.Identifier,
                 Name = data.Name,
                 Status = data.Devicestatus,
                 ApiKey = DeviceKey

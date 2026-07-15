@@ -13,9 +13,10 @@ public class TelemetryEntry
 {
  
         public Guid DeviceId { get; set; }
+        public string DeviceName { get; set; }
+        public string ApiKey { get; set; }
 
         [Required]
-        [Range(0, 60)]
         public string TelemetryType { get; set; }
         public JsonDocument payload { get; set; }
         public DateTime Timestamp { get; set; }
@@ -24,7 +25,7 @@ public class TelemetryEntry
 public class TelemetryRead {
 
     public Guid DeviceId { get; set; }
-    public string DeviceNmae { get; set; }
+    public string DeviceName { get; set; }
     public string TelemetryType { get; set; }
     public JsonDocument payload { get; set; }
     public DateTime Timestamp { get; set; }
@@ -32,6 +33,8 @@ public class TelemetryRead {
 }
 public class DeviceEntry
 {
+        [Required]
+        public string Identifier { get; set;}
         [Required]
         public Guid Id { get; set; }
         [Required]

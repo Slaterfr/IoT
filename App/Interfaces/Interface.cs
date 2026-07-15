@@ -1,11 +1,12 @@
-﻿using IoTProject.App.Services;
+﻿using IoTProject.App.DTOs;
+using IoTProject.App.Services;
 using IoTProject.Domain;
-using IoTProject.App.DTOs;
+using System.Security.Claims;
 namespace IoTProject.App.Interfaces
 {
     public interface ITelemetryService
     {
-        Task PostTelemetry(TelemetryEntry telemetryRecord, string ApiKey);
+        Task PostTelemetry(TelemetryEntry telemetryRecord);
         Task<List<TelemetryRead>> GetLastRecords(Guid? DeviceId);
 
     }
@@ -23,5 +24,10 @@ namespace IoTProject.App.Interfaces
         Task<string> Login(LoginRequest data);
 
 
+    }
+    public interface IJWTService
+    {
+        string GenerateToken(Guid userId);
+        ClaimsPrincipal ValidateToken(string token);
     }
 }
