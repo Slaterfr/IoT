@@ -24,7 +24,7 @@ public class MqttWorker : BackgroundService
 
         var options = new MqttClientOptionsBuilder()
         .WithClientId("TelemetryWorker")
-        .WithTcpServer("192.168.100.206", 1883)
+        .WithTcpServer("IP", 1883)
         .Build();
 
         client.ApplicationMessageReceivedAsync += async e =>
